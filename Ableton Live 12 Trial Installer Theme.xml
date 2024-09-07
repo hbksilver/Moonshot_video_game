@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Copyright (c) .NET Foundation and contributors.
+This software is released under the Microsoft Reciprocal License (MS-RL) (the "License"); you may not use the software except in compliance with the License.
+
+The text of the Microsoft Reciprocal License (MS-RL) can be found online at:
+ http://opensource.org/licenses/ms-rl
+
+
+Microsoft Reciprocal License (MS-RL)
+
+This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
+
+1. Definitions
+ The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning here as under U.S. copyright law.
+ A "contribution" is the original software, or any additions or changes to the software.
+ A "contributor" is any person that distributes its contribution under this license.
+ "Licensed patents" are a contributor's patent claims that read directly on its contribution.
+
+2. Grant of Rights
+ (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution or any derivative works that you create.
+ (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution in the software or derivative works of the contribution in the software.
+
+3. Conditions and Limitations
+ (A) Reciprocal Grants- For any file you distribute that contains code from the software (in source code or binary format), you must provide recipients the source code to that file along with a copy of this license, which license will govern that file. You may license other files that are entirely your own work and do not contain code from the software under any terms you choose.
+ (B) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
+ (C) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your patent license from such contributor to the software ends automatically.
+ (D) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution notices that are present in the software.
+ (E) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.
+ (F) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
+-->
+
+<!--
+This is a theme for the WixStandardBootstrapperApplication of the WiX Toolset version 4 (see https://wixtoolset.org/docs/tools/burn/wixstdba/).
+In order to use this theme in a bundle installer built with the WiX Toolset, reference the built-in `rtfLicense` theme as the basis and this file as the theme file in the attributes of the bal:WixStandardBootstrapperApplication, for example:
+
+<bal:WixStandardBootstrapperApplication Theme="rtfLicense" ThemeFile="InstallerTheme.xml" />
+-->
+
+<Theme xmlns="http://wixtoolset.org/schemas/v4/thmutil">
+    <Font Id="0" Height="-12" Weight="500" Foreground="windowtext" Background="window">Segoe UI</Font>
+    <Font Id="1" Height="-12" Weight="700" Foreground="windowtext" Background="window">Segoe UI</Font>
+    <Font Id="2" Height="-22" Weight="500" Foreground="windowtext">Segoe UI</Font>
+
+    <Window Width="635" Height="400" HexStyle="100a0000" FontId="0" Caption="#(loc.Caption)" IconFile="icon.ico">
+        <ImageControl X="0" Y="0" Width="150" Height="400" ImageFile="logo.png" Visible="yes"/>
+
+        <Page Name="Help">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">#(loc.HelpHeader)</Label>
+            <Label X="169" Y="129" Width="-19" Height="-35" FontId="0" DisablePrefix="yes">#(loc.HelpText)</Label>
+            <Button Name="HelpCloseButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.HelpCloseButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+        <Page Name="Loading">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">Loading</Label>
+        </Page>
+        <Page Name="Install">
+            <Label X="169" Y="12" Width="-19" Height="44" FontId="2" DisablePrefix="yes">Welcome&#160;to&#160;#(loc.Title)</Label>
+            <Richedit Name="EulaRichedit" X="170" Y="76" Width="-20" Height="-148" TabStop="yes" FontId="0" HexStyle="800000" />
+            <Checkbox Name="EulaAcceptCheckbox" X="170" Y="-123" Width="-20" Height="17" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.InstallAcceptCheckbox)</Checkbox>
+            <Label X="169" Y="-72" Width="-19" Height="17" FontId="1" DisablePrefix="yes">
+                <Text Condition="RelatedInstallFolders &gt;&lt; InstallFolder">Replacing the installation:</Text>
+                <Text Condition="NOT (RelatedInstallFolders &gt;&lt; InstallFolder)">Installing to:</Text>
+            </Label>
+            <Label X="169" Y="-56" Width="-19" Height="17" FontId="0" DisablePrefix="yes">[InstallFolder]</Label>
+            <Button Name="InstallUpdateButton" X="169" Y="-19" Width="200" Height="23" TabStop="yes" FontId="0" EnableCondition="WixStdBAUpdateAvailable" HideWhenDisabled="yes">#(loc.UpdateButton)</Button>
+            <Button Name="OptionsButton" X="-179" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0" VisibleCondition="NOT WixStdBASuppressOptionsUI">
+                <Text>#(loc.InstallOptionsButton)</Text>
+                <ChangePageAction Page="Options" />
+            </Button>
+            <Button Name="InstallButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text Condition="RelatedInstallFolders &gt;&lt; InstallFolder">&amp;Replace</Text>
+                <Text Condition="NOT (RelatedInstallFolders &gt;&lt; InstallFolder)">#(loc.InstallInstallButton)</Text>
+            </Button>
+            <Button Name="InstallCancelButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.InstallCancelButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+        <Page Name="Options">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">#(loc.OptionsHeader)</Label>
+            <Label X="169" Y="159" Width="-19" Height="17" FontId="1" DisablePrefix="yes">#(loc.OptionsLocationLabel)</Label>
+            <Editbox Name="InstallFolder" X="170" Y="181" Width="-100" Height="21" TabStop="yes" FontId="0" FileSystemAutoComplete="yes" />
+            <Button Name="BrowseButton" X="-19" Y="180" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.OptionsBrowseButton)</Text>
+                <BrowseDirectoryAction VariableName="InstallFolder" />
+            </Button>
+            <Checkbox Name="InstallAudioDriver" X="170" Y="220" Width="-20" Height="17" TabStop="yes" FontId="0" EnableCondition="InstalledPush3AudioDriverVersion = v0.0.0.0" HideWhenDisabled="yes">Install Ableton USB Audio Driver</Checkbox>
+            <Button Name="OptionsOkButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.OptionsOkButton)</Text>
+                <ChangePageAction Page="Install" />
+            </Button>
+            <Button Name="OptionsCancelButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.OptionsCancelButton)</Text>
+                <ChangePageAction Page="Install" Cancel="yes" />
+            </Button>
+        </Page>
+        <Page Name="Progress">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">#(loc.ProgressHeader)</Label>
+            <Label X="169" Y="153" Width="-19" Height="17" FontId="1" DisablePrefix="yes">#(loc.ProgressLabel)</Label>
+            <Label Name="OverallProgressPackageText" X="169" Y="169" Width="-19" Height="17" FontId="0" DisablePrefix="yes">#(loc.OverallProgressPackageText)</Label>
+            <Progressbar Name="OverallCalculatedProgressbar" X="170" Y="191" Width="-20" Height="15">
+                <ProgressbarImage ImageFile="progress.png" />
+            </Progressbar>
+            <Label X="169" Y="213" Width="-19" Height="34" FontId="0" DisablePrefix="yes">This can take several minutes.&#xA;Please note that the progress bar may appear frozen at times.</Label>
+            <Button Name="ProgressCancelButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.ProgressCancelButton)</Button>
+        </Page>
+        <Page Name="Modify">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">Uninstall&#160;#(loc.Title)</Label>
+            <Button Name="ModifyUpdateButton" X="169" Y="-19" Width="200" Height="23" TabStop="yes" FontId="0" EnableCondition="WixStdBAUpdateAvailable" HideWhenDisabled="yes">#(loc.UpdateButton)</Button>
+            <Button Name="RepairButton" X="-179" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.ModifyRepairButton)</Button>
+            <Button Name="UninstallButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.ModifyUninstallButton)</Button>
+            <Button Name="ModifyCancelButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.ModifyCancelButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+        <Page Name="Success">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">
+                <Text>#(loc.SuccessHeader)</Text>
+                <Text Condition="WixBundleAction = 2">#(loc.SuccessLayoutHeader)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.SuccessUnsafeUninstallHeader)</Text>
+                <Text Condition="WixBundleAction = 4">#(loc.SuccessUninstallHeader)</Text>
+                <Text Condition="WixBundleAction = 5">#(loc.SuccessCacheHeader)</Text>
+                <Text Condition="WixBundleAction = 6">#(loc.SuccessInstallHeader)</Text>
+                <Text Condition="WixBundleAction = 7">#(loc.SuccessModifyHeader)</Text>
+                <Text Condition="WixBundleAction = 8">#(loc.SuccessRepairHeader)</Text>
+            </Label>
+            <Button Name="LaunchButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.SuccessLaunchButton)</Button>
+            <Label X="-19" Y="-56" Width="400" Height="34" FontId="0" DisablePrefix="yes" VisibleCondition="WixStdBARestartRequired">
+                <Text>#(loc.SuccessRestartText)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.SuccessUninstallRestartText)</Text>
+            </Label>
+            <Button Name="SuccessRestartButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.SuccessRestartButton)</Button>
+            <Button Name="SuccessCloseButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.SuccessCloseButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+        <Page Name="Failure">
+            <Label X="169" Y="12" Width="-19" Height="30" FontId="2" DisablePrefix="yes">
+                <Text>#(loc.FailureHeader)</Text>
+                <Text Condition="WixBundleAction = 2">#(loc.FailureLayoutHeader)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.FailureUnsafeUninstallHeader)</Text>
+                <Text Condition="WixBundleAction = 4">#(loc.FailureUninstallHeader)</Text>
+                <Text Condition="WixBundleAction = 5">#(loc.FailureCacheHeader)</Text>
+                <Text Condition="WixBundleAction = 6">#(loc.FailureInstallHeader)</Text>
+                <Text Condition="WixBundleAction = 7">#(loc.FailureModifyHeader)</Text>
+                <Text Condition="WixBundleAction = 8">#(loc.FailureRepairHeader)</Text>
+            </Label>
+            <Hypertext Name="FailureLogFileLink" X="169" Y="53" Width="-19" Height="42" FontId="0" TabStop="yes" HideWhenDisabled="yes">#(loc.FailureHyperlinkLogText)</Hypertext>
+            <Hypertext Name="FailureMessageText" X="169" Y="97" Width="-19" Height="51" FontId="0" TabStop="yes" HideWhenDisabled="yes" />
+            <Label X="-19" Y="-56" Width="400" Height="34" FontId="0" DisablePrefix="yes" VisibleCondition="WixStdBARestartRequired">#(loc.FailureRestartText)</Label>
+            <Button Name="FailureRestartButton" X="-99" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.FailureRestartButton)</Button>
+            <Button Name="FailureCloseButton" X="-19" Y="-19" Width="75" Height="23" TabStop="yes" FontId="0">
+                <Text>#(loc.FailureCloseButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+    </Window>
+</Theme>
